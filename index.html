@@ -687,22 +687,22 @@
       </div>
     </div>
     <div class="reveal">
-      <div data-fs-success style="display:none;padding:2rem;background:rgba(45,206,137,0.1);border:1px solid rgba(45,206,137,0.3);margin-bottom:1rem;">
-          <p style="color:#2DCE89;font-family:Barlow,sans-serif;font-size:1rem;">✓ Message sent successfully! We'll be in touch shortly.</p>
+      <div id="form-success" style="display:none;padding:1.5rem 2rem;background:rgba(45,206,137,0.12);border:1px solid rgba(45,206,137,0.35);margin-bottom:1.5rem;">
+          <p style="color:#2DCE89;font-family:Barlow,sans-serif;font-size:1rem;margin:0;">✓ Message sent! We'll be in touch shortly.</p>
         </div>
-        <div data-fs-error style="display:none;padding:1rem;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);margin-bottom:1rem;">
-          <p style="color:#ff5050;font-family:Barlow,sans-serif;font-size:0.9rem;">Something went wrong. Please try again or email us directly.</p>
+        <div id="form-error" style="display:none;padding:1rem 2rem;background:rgba(255,80,80,0.1);border:1px solid rgba(255,80,80,0.3);margin-bottom:1.5rem;">
+          <p style="color:#ff5050;font-family:Barlow,sans-serif;font-size:0.9rem;margin:0;">Something went wrong. Please email us directly at info@synergyair.org</p>
         </div>
         <form id="contact-form" class="contact-form">
           <div class="form-row">
-            <div class="form-field"><label>First Name</label><input type="text" name="first_name" data-fs-field placeholder="First Name" required /></div>
-            <div class="form-field"><label>Last Name</label><input type="text" name="last_name" data-fs-field placeholder="Last Name" required /></div>
+            <div class="form-field"><label>First Name</label><input type="text" name="first_name" placeholder="First Name" required /></div>
+            <div class="form-field"><label>Last Name</label><input type="text" name="last_name" placeholder="Last Name" required /></div>
           </div>
-          <div class="form-field"><label>Company</label><input type="text" name="company" data-fs-field placeholder="Your Company" /></div>
-          <div class="form-field"><label>Email</label><input type="email" name="email" data-fs-field placeholder="you@company.com" required /><span data-fs-error="email" style="color:#ff5050;font-size:0.8rem;"></span></div>
+          <div class="form-field"><label>Company</label><input type="text" name="company" placeholder="Your Company" /></div>
+          <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="you@company.com" required /></div>
           <div class="form-field">
             <label>Inquiry Type</label>
-            <select name="inquiry_type" data-fs-field>
+            <select name="inquiry_type">
               <option value="">Select a service</option>
               <option>Air Cargo & Freight</option>
               <option>Passenger Transportation</option>
@@ -712,12 +712,36 @@
               <option>General Inquiry</option>
             </select>
           </div>
-          <div class="form-field"><label>Message</label><textarea name="message" data-fs-field placeholder="Tell us about your logistics needs..."></textarea><span data-fs-error="message" style="color:#ff5050;font-size:0.8rem;"></span></div>
-          <button type="submit" class="form-submit" data-fs-submit-btn>Send Message</button>
+          <div class="form-field"><label>Message</label><textarea name="message" placeholder="Tell us about your logistics needs..."></textarea></div>
+          <button type="submit" class="form-submit" id="submit-btn">Send Message</button>
         </form>
         <script>
-          window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
-          formspree('initForm', { formElement: '#contact-form', formId: 'xeedkdzw' });
+          document.getElementById('contact-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var btn = document.getElementById('submit-btn');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+            var data = new FormData(this);
+            try {
+              var res = await fetch('https://formspree.io/f/xeedkdzw', {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' }
+              });
+              if (res.ok) {
+                document.getElementById('form-success').style.display = 'block';
+                document.getElementById('contact-form').reset();
+                btn.textContent = 'Send Message';
+                btn.disabled = false;
+              } else {
+                throw new Error('Failed');
+              }
+            } catch(err) {
+              document.getElementById('form-error').style.display = 'block';
+              btn.textContent = 'Send Message';
+              btn.disabled = false;
+            }
+          });
         </script>
         <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
     </div>
