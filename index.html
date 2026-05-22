@@ -687,16 +687,16 @@
       </div>
     </div>
     <div class="reveal">
-      <form class="contact-form" action="https://formspree.io/f/xeedkdzw" method="POST">
+      <form class="contact-form" action="https://formspree.io/f/xeedkdzw" method="POST" enctype="application/x-www-form-urlencoded">
         <div class="form-row">
-          <div class="form-field"><label>First Name</label><input type="text" placeholder="First Name" /></div>
-          <div class="form-field"><label>Last Name</label><input type="text" placeholder="Last Name" /></div>
+          <div class="form-field"><label>First Name</label><input type="text" name="first_name" placeholder="First Name" /></div>
+          <div class="form-field"><label>Last Name</label><input type="text" name="last_name" placeholder="Last Name" /></div>
         </div>
-        <div class="form-field"><label>Company</label><input type="text" placeholder="Your Company" /></div>
-        <div class="form-field"><label>Email</label><input type="email" placeholder="you@company.com" /></div>
+        <div class="form-field"><label>Company</label><input type="text" name="company" placeholder="Your Company" /></div>
+        <div class="form-field"><label>Email</label><input type="email" name="email" placeholder="you@company.com" /></div>
         <div class="form-field">
           <label>Inquiry Type</label>
-          <select>
+          <select name="inquiry_type">
             <option value="">Select a service</option>
             <option>Air Cargo & Freight</option>
             <option>Passenger Transportation</option>
@@ -706,7 +706,7 @@
             <option>General Inquiry</option>
           </select>
         </div>
-        <div class="form-field"><label>Message</label><textarea placeholder="Tell us about your logistics needs..."></textarea></div>
+        <div class="form-field"><label>Message</label><textarea name="message" placeholder="Tell us about your logistics needs..."></textarea></div>
         <button type="submit" class="form-submit">Send Message</button>
       </form>
     </div>
